@@ -5,6 +5,8 @@ from langchain_community.vectorstores import Chroma
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.chains import RetrievalQA
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
 app = FastAPI()
 
@@ -30,8 +32,8 @@ qa = RetrievalQA.from_chain_type(
 # ===== API =====
 
 @app.get("/")
-def root():
-    return {"message": "RAG AI Server Running"}
+def index():
+    return FileResponse("index.html")
 
 @app.get("/ask")
 def ask(question: str):
