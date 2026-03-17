@@ -12,17 +12,17 @@ app = FastAPI()
 
 # ===== 初始化RAG =====
 
-loader = TextLoader("docs/company.txt", encoding="utf-8")
+loader = TextLoader("docs/stars.txt", encoding="utf-8")
 documents = loader.load()
 
-text_splitter = CharacterTextSplitter(chunk_size=200, chunk_overlap=20)
+text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=60)
 texts = text_splitter.split_documents(documents)
 
 embeddings = HuggingFaceEmbeddings()
 
 db = Chroma.from_documents(texts, embeddings)
 
-llm = Ollama(model="llama3")
+llm = Ollama(model="qwen2.5:7b")
 
 qa = RetrievalQA.from_chain_type(
     llm=llm,

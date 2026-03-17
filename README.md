@@ -1,46 +1,85 @@
-# \# AI RAG Knowledge Base
+# AI Astrology RAG System
 
-# 
+一個基於本地大語言模型的占星分析系統。
+本專案使用 Retrieval-Augmented Generation (RAG) 架構，
+結合占星書籍知識庫（約 35 萬字），提供語意問答與占星解析。
 
-# 一個基於本地大語言模型的知識庫問答系統。
+---
 
-# 使用者可以上傳文件，系統會從文件中找出相關內容，
+## 專案特色
 
-# 再由本地 AI 模型生成回答，不需要連接 OpenAI 或任何外部 API。
+* 完全本地運行（無需 OpenAI API）
+* 使用占星專業書籍作為知識來源
+* 支援語意搜尋與上下文理解
+* 可擴展為完整星盤分析系統
 
-# 
+---
 
-# \## 技術架構
+## 技術架構
 
-# 
+* **Ollama**：本地運行 LLM（qwen2.5:7b）
+* **LangChain**：RAG pipeline 管理
+* **ChromaDB**：向量資料庫（語意搜尋）
+* **FastAPI**：提供 API 服務
 
-# \- \*\*Ollama\*\* － 在本地運行大語言模型（llama3）
+---
 
-# \- \*\*LangChain\*\* － 控制 RAG 流程與模型呼叫
+## 系統流程
 
-# \- \*\*ChromaDB\*\* － 儲存文件向量，支援語意搜尋
+占星書籍 → 切分 → Embedding → 向量資料庫 →
+語意搜尋 → LLM 生成占星解析
 
-# \- \*\*FastAPI\*\* － 提供 REST API 服務
+---
 
-# 
+## 環境準備
 
-# \## 系統流程
+### 1️⃣ 安裝 Ollama
 
-# 
+下載並安裝：
+https://ollama.com
 
-# 文件 → 切分 → Embedding → 向量資料庫 → 語意搜尋 → LLM 生成回答
+啟動後拉取模型：
 
-# 
+ollama pull qwen2.5:7b
 
-# \## 如何啟動
+---
 
-# 
+## 如何啟動
 
-# pip install -r requirements.txt
+### 1️⃣ 啟動 Ollama（一定要先）
 
-# python -m uvicorn main:app --reload
+ollama serve
 
-# 
+（或開啟 Ollama 應用程式）
 
-# 啟動後開啟：http://127.0.0.1:8000
+---
 
+### 2️⃣ 安裝 Python 套件
+
+pip install -r requirements.txt
+
+---
+
+### 3️⃣ 啟動 API
+
+python -m uvicorn main:app --reload
+
+---
+
+### 4️⃣ 開啟 API 文件
+
+http://127.0.0.1:8000/docs
+
+---
+
+## API 範例
+
+GET /ask?question=根據資料分析我的星盤 上升星座 (ASC) 魔羯座 下降星座 (DES) 巨蟹座 天頂星座 (MC) 天秤座 天底星座 (IC) 牡羊座？
+
+![alt text](image.png)
+---
+
+## 說明
+
+本專案展示如何將通用 RAG 架構應用於特定領域（占星學），
+並透過本地模型與知識庫提升回答品質與可解釋性。
